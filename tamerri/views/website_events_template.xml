@@ -17,7 +17,7 @@
         		</t>
         	</xpath>-->
         	
-       	<xpath expr="//input[hasclass('hidden')]" position="before">
+       	<xpath expr="//input[hasclass('d-none')]" position="before">
        		<t t-if="event.vendor == True">
 	        		<br/><br/>
 	        		<h4 class="page-header mt16">
