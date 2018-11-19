@@ -17,6 +17,15 @@
 			<field name="email" position="after">
 	              <field name="total"/>
 	              <field name="quantity"/>
+	              <separator/>
+	              <field name="vendor"/>
+	              <field name="business" attrs="{'invisible':[('vendor','!=',True)]}"/>
+	              <field name="address" attrs="{'invisible':[('vendor','!=',True)]}"/>
+	              <field name="city" attrs="{'invisible':[('vendor','!=',True)]}"/>
+	              <field name="business_phone" attrs="{'invisible':[('vendor','!=',True)]}"/>
+	              <field name="bus_state" attrs="{'invisible':[('vendor','!=',True)]}"/>
+	              <field name="website" attrs="{'invisible':[('vendor','!=',True)]}"/>
+	              <field name="sells" attrs="{'invisible':[('vendor','!=',True)]}"/>
         	</field>
         	<field name="state" position="replace">
 	              <field name="state" nolabel="1" colspan="2" widget="statusbar" statusbar_visible="draft,paid,confirm,done"/>
@@ -24,6 +33,29 @@
         </field>
     </record>
 		
+	<record id="tamerri_view_event_form" model="ir.ui.view">
+      <field name="name">tamerri.event.event.form</field>
+      <field name="model">event.event</field>
+      <field name="priority" eval="7" />
+      <field name="inherit_id" ref="event.view_event_form"/>
+      <field name="arch" type="xml">
+        	<field name="auto_confirm" position="after">
+        			<field name="vendor"/>
+        	</field>
+        </field>
+    </record>
+    
+    <record id="tamerri_view_registration_search" model="ir.ui.view">
+      <field name="name">tamerri.event.registration.search</field>
+      <field name="model">event.registration</field>
+      <field name="priority" eval="7" />
+      <field name="inherit_id" ref="event.view_registration_search"/>
+      <field name="arch" type="xml">
+        	<xpath expr="//filter[@name='expected']" position="replace">
+                <filter string="Expected" name="expected" domain="[('state', 'in', ['draft', 'paid', 'open', 'done'])]"/>
+        	</xpath>
+        </field>
+    </record>
 		
 	</data>
 </odoo>
