@@ -37,18 +37,18 @@
                 	<br/>
 	               	<t t-foreach="attendees[:1]" t-as="attendee">
 		                <tr>
-		                    Please you are to pay the total sum of <td><span t-field="attendee.total"/></td> Naira Only for the total of <td><t t-esc="attendee.quantity"/></td> Tickets<br/>
+		                    Please you are to pay the total sum of <td><span t-field="attendee.total"/></td> Naira Only for the total of <td><t t-esc="attendee.quantity"/></td> Ticket(s)<br/>
 		                </tr>
 						<form method="POST" action="https://voguepay.com/pay/">
 							<input type="hidden" name="v_merchant_id" value="2020-0073669" />
 							<input type="hidden" name="memo" value="Tamerri Festival Ticket" />
-							<input type="hidden" name="success_url" value="http://localhost:8069/event/payment_successful" />
+							<input type="hidden" name="success_url" value="https://tamerri.odoo.com/event/payment_successful" />
 							<input type="hidden" name="developer_code" value="5bd4e556636a9" />
 							<input type="hidden" name="cur" value="NGN" />
 							<input type="hidden" name="item_1" value="Tamerri Festival Ticket" />
 							<input type="hidden" name="price_1" t-att-value="attendee.total" />
 							<input type="hidden" name="description_1" value="Tamerri Festival Ticket" />
-							<input type="image" src="https://voguepay.com/images/buttons/Buynow.png" class="buynowimg" style="width: 25%;" />
+							<input type="image" src="https://voguepay.com/images/buttons/Buynow.png" class="buynowimg" style="width: 30%;" />
 						</form>
 	            	</t>
                 </div>
