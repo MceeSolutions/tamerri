@@ -6,11 +6,11 @@
    			<xpath expr="//button[@type='submit']" position="replace">
                 <button type="submit" class="btn btn-primary">Continue &amp; Pay</button>
         	</xpath>
-        	<xpath expr="//div[hasclass('pull-left')]" position="after">
+        	<!-- <xpath expr="//div[hasclass('pull-left')]" position="after">
                 <div class="pull-right">
                     <h5>TAMERRI</h5>
                 </div>
-        	</xpath>
+        	</xpath> -->
    		</template>
    		
 		<template id="paid_thank_you" name="Thank you">
