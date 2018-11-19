@@ -1,6 +1,6 @@
 # -*-coding:utf-8-*-
 from odoo import models, fields, api
-from plainbox.impl.unit.validators import compute_value_map
+#from plainbox.impl.unit.validators import compute_value_map
 
 class EventRegistration(models.Model):
     _inherit = 'event.registration'
