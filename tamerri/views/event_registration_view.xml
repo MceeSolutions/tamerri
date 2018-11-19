@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+	
+	<record id="tamerri_view_event_registration_form" model="ir.ui.view">
+      <field name="name">tamerri.event.registration.form</field>
+      <field name="model">event.registration</field>
+      <field name="priority" eval="7" />
+      <field name="inherit_id" ref="event.view_event_registration_form"/>
+      <field name="arch" type="xml">
+      		<xpath expr="//button[@name='confirm_registration']" position="replace">
+        		<button name="confirm_registration" string="Confirm" states="paid" type="object" class="oe_highlight"/>
+        	</xpath>
+      		<xpath expr="//button[@name='confirm_registration']" position="before">
+        		<button name="reg_paid" string="Verify Payment" states="draft" type="object" class="oe_highlight"/>
+        	</xpath>
+			<field name="email" position="after">
+	              <field name="total"/>
+	              <field name="quantity"/>
+        	</field>
+        	<field name="state" position="replace">
+	              <field name="state" nolabel="1" colspan="2" widget="statusbar" statusbar_visible="draft,paid,confirm,done"/>
+        	</field>
+        </field>
+    </record>
+		
+		
+	</data>
+</odoo>
