@@ -2,8 +2,29 @@
 from odoo import models, fields, api
 #from plainbox.impl.unit.validators import compute_value_map
 
+class EventEvent(models.Model):
+    _inherit = 'event.event'
+    
+    vendor = fields.Boolean(string='Vendor?')
+    
 class EventRegistration(models.Model):
     _inherit = 'event.registration'
+    
+    vendor = fields.Boolean(string='Vendor?', related='event_id.vendor', readonly=True)
+    
+    business = fields.Char(string='Business')
+    
+    address = fields.Text(string='Address')
+    
+    city = fields.Text(string='City')
+    
+    business_phone = fields.Char(string='Business Phone')
+    
+    bus_state = fields.Text(string='State')
+    
+    website = fields.Char(string='Website')
+    
+    sells = fields.Char(string='List of items you sell')
     
     sale_order_id = fields.Many2one(
         comodel_name='sale.order',

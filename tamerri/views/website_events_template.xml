@@ -10,14 +10,61 @@
                 <div class="pull-right">
                     <h5>TAMERRI</h5>
                 </div>
-        	</xpath> -->
-   		</template>
+        	</xpath> 
+        	<xpath expr="//div[hasclass('col-md-3')]" position="after">
+        		<t t-if="event.vendor == True">
+        			<div class="col-md-7"><strong>Business</strong></div>
+        		</t>
+        	</xpath>-->
+        	
+       	<xpath expr="//input[hasclass('d-none')]" position="before">
+       		<t t-if="event.vendor == True">
+	        		<br/><br/>
+	        		<h4 class="page-header mt16">
+	                    <strong>
+	                        Vendor Details                                        
+	                    </strong>
+	                </h4>
+        		<div class="container">
+	      			<div class="row">
+	                      <div class="col-md-4"><strong>Business</strong></div>
+	                      <div class="col-md-5"><strong>Address</strong></div>
+	                      <div class="col-md-3"><strong>City</strong></div>
+	                  </div>
+	                  <div class="row mb4">
+	                      <t t-set="attendee_placeholder">Bussiness Name...</t>
+	                      <div class="col-md-4"><input class='form-control' type='text' t-attf-name="#{counter}-business" required="This field is required" t-att-placeholder="attendee_placeholder"/></div>
+	                      <div class="col-md-5"><input class='form-control' type='text' t-attf-name="#{counter}-address" required="This field is required"/></div>
+	                      <div class="col-md-3"><input class='form-control' type='text' t-attf-name="#{counter}-city" required="This field is required"/></div>
+	                  </div>
+	                  <div class="row">
+	                      <div class="col-md-4"><strong>State</strong></div>
+	                      <div class="col-md-5"><strong>Business Phone</strong></div>
+	                      <div class="col-md-3"><strong>Website</strong> <span class="text-muted">(Optional)</span></div>
+	                  </div>
+	                  <div class="row mb4">
+	                      <div class="col-md-4"><input class='form-control' type='text' t-attf-name="#{counter}-bus_state" required="This field is required"/></div>
+	                      <div class="col-md-5"><input class='form-control' type='tel' t-attf-name="#{counter}-business_phone" required="This field is required"/></div>
+	                      <div class="col-md-3"><input class='form-control' type='url' t-attf-name="#{counter}-website"/></div>
+	                  </div>
+	                  <div class="row">
+	                      <div class="col-md-12"><strong>List what you sell</strong></div>
+	                  </div>
+	                  <div class="row mb4">
+	                      <t t-set="attendee_placeholder">what you sell...</t>
+	                      <div class="col-md-12"><input class='form-control' type='text' t-attf-name="#{counter}-sells" required="This field is required" t-att-placeholder="attendee_placeholder"/></div>
+	                 </div>
+       			</div>
+       		</t>
+       	</xpath>
+        	
+  		</template>
    		
 		<template id="paid_thank_you" name="Thank you">
 		 <t t-call="website.layout">
 		     <form>
 		         <div class="form-group" style="text-align: center; padding-top: 11%; padding-bottom: 10%;">
-	         		 <h1 class="text-center"><i class="fa fa-check-circle fa-2x text-success" /></h1>
+	         		 <h1 class="text-center"><i class="fa fa-check-circle fa-3x text-success" /></h1>
 		             <h1>Thank you, Paid Successfully!</h1>
 		             <h2>We are glad to confirm your payment to our event</h2>
 		             In the meantime,
@@ -28,7 +75,32 @@
 		 </t>
 		 </template>
 		 
+		 <template id="payment_failed" name="Faied Payment">
+		 <t t-call="website.layout">
+		     <form>
+		         <div class="form-group" style="text-align: center; padding-top: 11%; padding-bottom: 10%;">
+	         		 <h1 class="text-center"><i class="fa fa-times-circle fa-3x text-danger" /></h1>
+		             <h1>Sorry, Payment Failed</h1>
+		             <h2>Something appaers to have gone wrong, please go back to the previous page and try again</h2>              
+		         </div>
+		     </form>
+		 </t>
+		 </template>
+		 
 		 <template id="tamerri_registration_complete" name="Registration Complete" inherit_id="website_event.registration_complete">
+        	
+        	<xpath expr="//th" position="after">
+        		<t t-if="event.vendor == True">
+        			<th>Business Name</th>
+        		</t>
+        	</xpath>
+        	
+        	<xpath expr="//td" position="after">
+        		<t t-if="event.vendor == True">
+        			<td><i class="fa fa-briefcase"></i> <t t-if='attendee.business'><t t-esc="attendee.business"/></t><t t-if='not attendee.business'>N/A</t></td>
+        		</t>
+        	</xpath>
+        	
         	<xpath expr="//div[hasclass('row')]" position="inside">
                 <div class="col-md-3 mt16">
                     <h4>Payment Information</h4>
@@ -37,19 +109,36 @@
                 	<br/>
 	               	<t t-foreach="attendees[:1]" t-as="attendee">
 		                <tr>
-		                    Please you are to pay the total sum of <td><span t-field="attendee.total"/></td> Naira Only for the total of <td><t t-esc="attendee.quantity"/></td> Ticket(s)<br/>
+		                    Please you are to pay the total sum of <td><span t-field="attendee.total"/></td> Naira Only <t t-if="event.vendor == False"> for <td><t t-esc="attendee.quantity"/></td> Ticket(s) </t><br/>
 		                </tr>
-						<form method="POST" action="https://voguepay.com/pay/">
-							<input type="hidden" name="v_merchant_id" value="2020-0073669" />
-							<input type="hidden" name="memo" value="Tamerri Festival Ticket" />
-							<input type="hidden" name="success_url" value="https://tamerri.odoo.com/event/payment_successful" />
-							<input type="hidden" name="developer_code" value="5bd4e556636a9" />
-							<input type="hidden" name="cur" value="NGN" />
-							<input type="hidden" name="item_1" value="Tamerri Festival Ticket" />
-							<input type="hidden" name="price_1" t-att-value="attendee.total" />
-							<input type="hidden" name="description_1" value="Tamerri Festival Ticket" />
-							<input type="image" src="https://voguepay.com/images/buttons/Buynow.png" class="buynowimg" style="width: 30%;" />
-						</form>
+		                <t t-if="event.vendor == False">
+							<form method="POST" action="https://voguepay.com/pay/">
+								<input type="hidden" name="v_merchant_id" value="2020-0073669" />
+								<input type="hidden" name="memo" value="Tamerri Festival Ticket" />
+								<input type="hidden" name="success_url" value="https://tamerrifestival18.odoo.com/event/payment_successful" />
+								<input type="hidden" name="fail_url" value="https://tamerrifestival18.odoo.com/event/payment_failed" />
+								<input type="hidden" name="developer_code" value="5bd4e556636a9" />
+								<input type="hidden" name="cur" value="NGN" />
+								<input type="hidden" name="item_1" value="Tamerri Festival Ticket" />
+								<input type="hidden" name="price_1" t-att-value="attendee.total" />
+								<input type="hidden" name="description_1" value="Tamerri Festival Ticket" />
+								<input type="image" src="https://voguepay.com/images/buttons/Buynow.png" class="buynowimg" style="width: 30%;" />
+							</form>
+						</t>
+						<t t-if="event.vendor == True">
+							<form method="POST" action="https://voguepay.com/pay/">
+								<input type="hidden" name="v_merchant_id" value="2020-0073669" />
+								<input type="hidden" name="memo" value="Vendor Space Payment" />
+								<input type="hidden" name="success_url" value="https://tamerrifestival18.odoo.com/payment_successful" />
+								<input type="hidden" name="fail_url" value="https://tamerrifestival18.odoo.com/event/payment_failed" />
+								<input type="hidden" name="developer_code" value="5bd4e556636a9" />
+								<input type="hidden" name="cur" value="NGN" />
+								<input type="hidden" name="item_1" value="Vendor Space" />
+								<input type="hidden" name="price_1" value="10000" />
+								<input type="hidden" name="description_1" value="Vendor Space" />
+								<input type="image" src="https://voguepay.com/images/buttons/Buynow.png" class="buynowimg" style="width: 30%;" />
+							</form>
+						</t>
 	            	</t>
                 </div>
         	</xpath>

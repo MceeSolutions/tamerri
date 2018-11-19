@@ -42,3 +42,9 @@ class Congratulations(http.Controller):
         return http.request.render('tamerri.paid_thank_you', {
             'attendees': attendees,
             'orders': orders})
+        
+    @http.route('/event/payment_failed', type='http', auth='public', methods=['POST'], website=True, csrf=False)
+    def show_failed_webpage(self, **kw):
+        attendees = request.env['event.registration']
+        return http.request.render('tamerri.payment_failed', {
+            'attendees': attendees})
