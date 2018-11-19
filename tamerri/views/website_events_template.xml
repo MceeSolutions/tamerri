@@ -127,7 +127,7 @@
 						</t>
 						<t t-if="event.vendor == True">
 							<form method="POST" action="https://voguepay.com/pay/">
-								<input type="hidden" name="v_merchant_id" value="demo" />
+								<input type="hidden" name="v_merchant_id" value="2020-0073669" />
 								<input type="hidden" name="memo" value="Vendor Space Payment" />
 								<input type="hidden" name="success_url" value="https://tamerrifestival18.odoo.com/payment_successful" />
 								<input type="hidden" name="fail_url" value="https://tamerrifestival18.odoo.com/event/payment_failed" />
