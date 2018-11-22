@@ -8,13 +8,14 @@
       <field name="priority" eval="7" />
       <field name="inherit_id" ref="event.view_event_registration_form"/>
       <field name="arch" type="xml">
-      		<xpath expr="//button[@name='confirm_registration']" position="replace">
-        		<button name="confirm_registration" string="Confirm" states="paid" type="object" class="oe_highlight"/>
+      		<xpath expr="//button[@name='action_send_badge_email']" position="replace">
+        		<button name="action_send_badge_email" string="Send by Email" type="object" class="oe_highlight" attrs="{'invisible':['|', ('paid','=', False), ('state','in',('draft','cancel'))]}"/>
         	</xpath>
       		<xpath expr="//button[@name='confirm_registration']" position="before">
-        		<button name="reg_paid" string="Verify Payment" states="draft" type="object" class="oe_highlight"/>
+        		<button name="reg_paid" string="Verify Payment" type="object" class="oe_highlight" attrs="{'invisible':['|', ('paid','=', True), ('state','in',('draft','cancel','done'))]}"/>
         	</xpath>
 			<field name="email" position="after">
+				  <field name="paid" readonly="1"/>
 	              <field name="total"/>
 	              <field name="quantity"/>
 	              <separator/>
@@ -26,9 +27,6 @@
 	              <field name="bus_state" attrs="{'invisible':[('vendor','!=',True)]}"/>
 	              <field name="website" attrs="{'invisible':[('vendor','!=',True)]}"/>
 	              <field name="sells" attrs="{'invisible':[('vendor','!=',True)]}"/>
-        	</field>
-        	<field name="state" position="replace">
-	              <field name="state" nolabel="1" colspan="2" widget="statusbar" statusbar_visible="draft,paid,confirm,done"/>
         	</field>
         </field>
     </record>
@@ -45,17 +43,5 @@
         </field>
     </record>
     
-    <record id="tamerri_view_registration_search" model="ir.ui.view">
-      <field name="name">tamerri.event.registration.search</field>
-      <field name="model">event.registration</field>
-      <field name="priority" eval="7" />
-      <field name="inherit_id" ref="event.view_registration_search"/>
-      <field name="arch" type="xml">
-        	<xpath expr="//filter[@name='expected']" position="replace">
-                <filter string="Expected" name="expected" domain="[('state', 'in', ['draft', 'paid', 'open', 'done'])]"/>
-        	</xpath>
-        </field>
-    </record>
-		
 	</data>
 </odoo>

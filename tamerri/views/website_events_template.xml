@@ -17,7 +17,7 @@
         		</t>
         	</xpath>-->
         	
-       	<xpath expr="//input[hasclass('d-none')]" position="before">
+       	<xpath expr="//input[hasclass('hidden')]" position="before">
        		<t t-if="event.vendor == True">
 	        		<br/><br/>
 	        		<h4 class="page-header mt16">
@@ -88,6 +88,10 @@
 		 </template>
 		 
 		 <template id="tamerri_registration_complete" name="Registration Complete" inherit_id="website_event.registration_complete">
+        	
+        	<xpath expr="//h3" position="after">
+        		<h4>Registration Badge/Ticket will be sent once payment has been made</h4>
+        	</xpath>
         	
         	<xpath expr="//th" position="after">
         		<t t-if="event.vendor == True">

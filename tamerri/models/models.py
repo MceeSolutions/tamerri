@@ -41,17 +41,31 @@ class EventRegistration(models.Model):
     
     currency_id = fields.Many2one("res.currency", related='sale_order_id.pricelist_id.currency_id', string="Currency", readonly=True, required=True)
     
-    state = fields.Selection([
-        ('draft', 'Unconfirmed'), ('paid', 'Paid'), ('cancel', 'Cancelled'),
-        ('open', 'Confirmed'), ('done', 'Done')],
-        string='Status', default='draft', readonly=True, required=True, copy=False,
-        help="If event is created, the status is 'Draft'. If event is confirmed for the particular dates the status is set to 'Confirmed'. If the event is over, the status is set to 'Done'. If event is cancelled the status is set to 'Cancelled'.")
+    paid = fields.Boolean(string='paid?')
     
     @api.multi
     def reg_paid(self):
-        self.write({'state': 'paid'})
-        return {}
-
+        self.write({'paid': True})
+        
+    
+    @api.one
+    def confirm_registration(self):
+        self.state = 'open'
+        
+        if self.state in ['open']:
+            config = self.env['mail.template'].sudo().search([('name','=','Event: Registration')], limit=1)
+            mail_obj = self.env['mail.mail']
+            if config:
+                values = config.generate_email(self.id)
+                mail = mail_obj.create(values)
+                if mail:
+                    mail.send()
+        
+        # auto-trigger after_sub (on subscribe) mail schedulers, if needed
+        onsubscribe_schedulers = self.event_id.event_mail_ids.filtered(
+            lambda s: s.interval_type == 'after_sub')
+        onsubscribe_schedulers.execute()
+    
 class SaleOrder(models.Model):
     _inherit = "sale.order"
     
